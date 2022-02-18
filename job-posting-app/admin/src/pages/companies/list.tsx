@@ -29,14 +29,6 @@ export const CompanyList: React.FC<IResourceComponentsProps> = () => {
     <List>
       <Table {...tableProps} rowKey="id">
         <Table.Column
-          dataIndex="id"
-          key="id"
-          title="ID"
-          render={(value) => <TextField value={value} />}
-          defaultSortOrder={getDefaultSortOrder("id", sorter)}
-          sorter
-        />
-        <Table.Column
           dataIndex="name"
           key="name"
           title="Name"

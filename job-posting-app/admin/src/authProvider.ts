@@ -1,7 +1,9 @@
 import { AuthProvider } from "@pankod/refine-core";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 
-export const TOKEN_KEY = "refine-auth";
+export const ACCESS_TOKEN_KEY = "refine-access-token";
+export const USER_KEY = "refine-user";
 
 export const authProvider: AuthProvider = {
   login: async ({ username, password }) => {
@@ -15,7 +17,8 @@ export const authProvider: AuthProvider = {
 
     if (status === 200) {
       const { accessToken } = data;
-      localStorage.setItem(TOKEN_KEY, accessToken);
+      localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
+      localStorage.setItem(USER_KEY, JSON.stringify(jwt_decode(accessToken)));
 
       axios.defaults.headers.common = {
         Authorization: `Bearer ${accessToken}`,
@@ -27,12 +30,13 @@ export const authProvider: AuthProvider = {
     return Promise.reject(new Error("username: admin, password: admin"));
   },
   logout: () => {
-    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(ACCESS_TOKEN_KEY);
+    localStorage.removeItem(USER_KEY);
     return Promise.resolve();
   },
   checkError: () => Promise.resolve(),
   checkAuth: async () => {
-    const token = localStorage.getItem(TOKEN_KEY);
+    const token = localStorage.getItem(ACCESS_TOKEN_KEY);
     if (!token) {
       return Promise.reject();
     }
@@ -55,13 +59,14 @@ export const authProvider: AuthProvider = {
   },
   getPermissions: () => Promise.resolve(),
   getUserIdentity: async () => {
-    const token = localStorage.getItem(TOKEN_KEY);
-    if (!token) {
+    const userData = localStorage.getItem(USER_KEY);
+    if (!userData) {
       return Promise.reject();
     }
 
+    const user = JSON.parse(userData);
     return Promise.resolve({
-      id: 1,
+      ...user,
     });
   },
 };

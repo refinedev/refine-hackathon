@@ -12,6 +12,7 @@ import {
 } from "./pages/companies";
 import { JobList, JobCreate, JobEdit } from "pages/jobs";
 import { authProvider, axios } from "./authProvider";
+import { ac } from "./ac";
 
 function App() {
     const API_URL = "http://localhost:3000";
@@ -25,6 +26,36 @@ function App() {
             dataProvider={dataProvider}
             authProvider={authProvider}
             LoginPage={LoginPage}
+            accessControlProvider={{
+                can: async ({ resource, action }) => {
+                    let can: boolean = false;
+                    const stringifyUser = localStorage.getItem('refine-user');
+                    if (stringifyUser) {
+                        const { roles } = JSON.parse(stringifyUser);
+
+                        roles.forEach((role: string) => {
+                            switch (action) {
+                                case 'list':
+                                case 'show':
+                                    can = ac.can(role).read(resource).granted;
+                                    break;
+                                case 'create':
+                                    can = ac.can(role).create(resource).granted;
+                                    break;
+                                case 'edit':
+                                    can = ac.can(role).update(resource).granted;
+                                    break;
+                                case 'delete':
+                                    can = ac.can(role).delete(resource).granted;
+                                    break;
+                            }
+                        });
+
+
+                    }
+                    return Promise.resolve({ can });
+                },
+            }}
             resources={[{
                 name: "companies",
                 list: CompanyList,
