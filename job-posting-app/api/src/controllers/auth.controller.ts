@@ -9,6 +9,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ACGuard } from 'nest-access-control';
 
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { UserService } from '../services/user.service';
@@ -30,9 +31,9 @@ export class AuthController {
     return await this.userService.register(dto);
   }
 
-  @Get('me')
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, ACGuard)
+  @Get('me')
   async me(@Request() req) {
     return req.user;
   }

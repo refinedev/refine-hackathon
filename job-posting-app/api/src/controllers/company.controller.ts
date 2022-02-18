@@ -1,5 +1,15 @@
-import { Controller } from '@nestjs/common';
-import { Crud, CrudController } from '@nestjsx/crud';
+import { Controller, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import {
+  Crud,
+  CrudController,
+  CrudRequest,
+  Override,
+  ParsedBody,
+  ParsedRequest,
+} from '@nestjsx/crud';
+import { ACGuard, UseRoles } from 'nest-access-control';
+import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 
 import { CompanyEntity } from '../entities/company.entity';
 import { CompanyService } from '../services/company.service';
@@ -9,6 +19,8 @@ import { CompanyGetManyDto } from './dto/company-getMany.dto';
 import { CompanyUpdateDto } from './dto/company-update.dto';
 import { CompanyDto } from './dto/company.dto';
 
+@ApiTags('companies')
+@ApiBearerAuth()
 @Crud({
   dto: {
     create: CompanyCreateDto,
@@ -32,8 +44,47 @@ import { CompanyDto } from './dto/company.dto';
     update: CompanyDto,
     get: CompanyDto,
   },
+  routes: {
+    exclude: ['createManyBase', 'replaceOneBase'],
+  },
 })
+@UseGuards(JwtAuthGuard, ACGuard)
 @Controller('companies')
 export class CompanyController implements CrudController<CompanyEntity> {
   constructor(public service: CompanyService) {}
+
+  get base(): CrudController<CompanyEntity> {
+    return this;
+  }
+
+  @Override()
+  @UseRoles({
+    resource: 'companies',
+    action: 'create',
+  })
+  createOne(
+    @ParsedRequest() req: CrudRequest,
+    @ParsedBody() dto: CompanyCreateDto,
+  ) {
+    console.log('create-dto', dto);
+    return this.base.createOneBase(req, <CompanyEntity>dto);
+  }
+
+  @Override()
+  @UseRoles({
+    resource: 'companies',
+    action: 'update',
+  })
+  updateOne(req: CrudRequest, dto: CompanyUpdateDto) {
+    return this.base.updateOneBase(req, <CompanyEntity>dto);
+  }
+
+  @Override()
+  @UseRoles({
+    resource: 'companies',
+    action: 'delete',
+  })
+  deleteOne(req: CrudRequest) {
+    return this.base.deleteOneBase(req);
+  }
 }
