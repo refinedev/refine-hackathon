@@ -4,7 +4,7 @@ import { CompanyEntity } from './company.entity';
 
 @Entity({ name: 'job' })
 export class JobEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @Column()
@@ -14,7 +14,7 @@ export class JobEntity {
   location?: string;
 
   @Column({
-    type: 'longtext',
+    type: 'text',
     nullable: true,
   })
   content?: string;

@@ -4,7 +4,7 @@ import { JobEntity } from './job.entity';
 
 @Entity({ name: 'company' })
 export class CompanyEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @Column()

@@ -1,21 +1,16 @@
 version: '3.3'
 services:
-  db:
-    # for m1
-    platform: linux/x86_64
-
-    image: mysql:latest
-    restart: always
+  database:
+    image: 'postgres:13-alpine'
     environment:
-      MYSQL_DATABASE: 'job-posting'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'password'
-      MYSQL_ROOT_PASSWORD: 'password'
-    ports:
-      - '3306:3306'
-    expose:
-      - '3306'
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: database
     volumes:
-      - my-db:/var/lib/mysql
+      - database-data:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
+    expose:
+      - 5432
 volumes:
-  my-db:
+  database-data: null
