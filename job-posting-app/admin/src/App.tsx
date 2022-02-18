@@ -1,53 +1,45 @@
-import { Refine } from "@pankod/refine";
-
+import { Refine } from "@pankod/refine-core";
+import { notificationProvider, Layout, LoginPage } from "@pankod/refine-antd";
 import routerProvider from "@pankod/refine-react-router";
-
-import "styles/antd.less";
+import "@pankod/refine-antd/dist/styles.min.css";
 import nestjsxCrudDataProvider from "@pankod/refine-nestjsx-crud";
+
 import {
-  CompanyList,
-  CompanyShow,
-  CompanyCreate,
-  CompanyEdit,
+    CompanyList,
+    CompanyShow,
+    CompanyCreate,
+    CompanyEdit,
 } from "./pages/companies";
-import {
-  Title,
-  Header,
-  Sider,
-  Footer,
-  Layout,
-  OffLayoutArea,
-} from "components";
 import { JobList, JobCreate, JobEdit } from "pages/jobs";
+import { authProvider, axios } from "./authProvider";
 
 function App() {
-  const API_URL = "http://localhost:3000";
-  const dataProvider = nestjsxCrudDataProvider(API_URL);
+    const API_URL = "http://localhost:3000";
+    const dataProvider = nestjsxCrudDataProvider(API_URL, axios);
 
-  return (
-    <Refine
-      dataProvider={dataProvider}
-      Title={Title}
-      Header={Header}
-      Sider={Sider}
-      Footer={Footer}
-      Layout={Layout}
-      OffLayoutArea={OffLayoutArea}
-      routerProvider={routerProvider}
-      resources={[{
-        name: "companies",
-        list: CompanyList,
-        create: CompanyCreate,
-        edit: CompanyEdit,
-        show: CompanyShow
-      }, {
-        name: "jobs",
-        list: JobList,
-        create: JobCreate,
-        edit: JobEdit,
-        show: CompanyShow
-      }]} />
-  );
+    return (
+        <Refine
+            routerProvider={routerProvider}
+            notificationProvider={notificationProvider}
+            Layout={Layout}
+            dataProvider={dataProvider}
+            authProvider={authProvider}
+            LoginPage={LoginPage}
+            resources={[{
+                name: "companies",
+                list: CompanyList,
+                create: CompanyCreate,
+                edit: CompanyEdit,
+                show: CompanyShow
+            }, {
+                name: "jobs",
+                list: JobList,
+                create: JobCreate,
+                edit: JobEdit,
+                show: CompanyShow
+            }]}
+        />
+    );
 }
 
 export default App;

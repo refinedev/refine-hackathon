@@ -1,7 +1,7 @@
 import {
   IsNotEmpty,
-  IsNumber,
   IsOptional,
+  IsUUID,
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
@@ -10,7 +10,7 @@ import { ApiProperty } from '@nestjs/swagger';
 class JobCreateCompanyDto {
   @ApiProperty()
   @IsNotEmpty()
-  @IsNumber()
+  @IsUUID()
   readonly id: number;
 }
 

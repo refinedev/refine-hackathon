@@ -29,6 +29,13 @@ import { CompanyDto } from './dto/company.dto';
   model: {
     type: CompanyEntity,
   },
+  params: {
+    id: {
+      field: 'id',
+      type: 'uuid',
+      primary: true,
+    },
+  },
   query: {
     alwaysPaginate: true,
     sort: [

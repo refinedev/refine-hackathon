@@ -1,16 +1,18 @@
+import { IResourceComponentsProps } from "@pankod/refine-core";
+
 import {
   List,
   Table,
   TextField,
   useTable,
-  IResourceComponentsProps,
   getDefaultSortOrder,
   Space,
   EditButton,
   DeleteButton,
   TagField,
   ShowButton,
-} from "@pankod/refine";
+} from "@pankod/refine-antd";
+
 import { ICompany } from "interfaces";
 
 export const CompanyList: React.FC<IResourceComponentsProps> = () => {

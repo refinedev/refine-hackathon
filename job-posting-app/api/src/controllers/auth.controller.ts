@@ -3,6 +3,7 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Get,
+  HttpCode,
   Post,
   Request,
   UseGuards,
@@ -21,11 +22,13 @@ import { RegisterDto } from './dto/register.dto';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly userService: UserService) {}
+  @HttpCode(200)
   @Post('login')
   async login(@Body() dto: LoginDto) {
     return await this.userService.login(dto);
   }
 
+  @HttpCode(200)
   @Post('register')
   async register(@Body() dto: RegisterDto) {
     return await this.userService.register(dto);

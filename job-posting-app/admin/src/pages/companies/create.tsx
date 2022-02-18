@@ -1,14 +1,6 @@
-import {
-  Create,
-  Form,
-  Input,
-  IResourceComponentsProps,
-  useForm,
-  Checkbox,
-  Typography,
-  Row,
-  Col,
-} from "@pankod/refine";
+import { IResourceComponentsProps } from "@pankod/refine-core";
+
+import { Create, Form, Input, useForm, Checkbox, Typography, Row, Col } from "@pankod/refine-antd";
 
 import "react-mde/lib/styles/css/react-mde-all.css";
 

@@ -29,6 +29,13 @@ import { JobDto } from './dto/job.dto';
     create: JobCreateDto,
     update: JobUpdateDto,
   },
+  params: {
+    id: {
+      field: 'id',
+      type: 'uuid',
+      primary: true,
+    },
+  },
   query: {
     alwaysPaginate: true,
     join: {

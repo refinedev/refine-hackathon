@@ -32,7 +32,14 @@ superplate is a Next.js all-in-one project generator. Create your project with t
 To learn more about **superplate**, please check out the [Documentation](https://github.com/pankod/superplate).
 
 
-### **less**
+### **antd**
+
+
+
+[Go To Documentation]()
+
+
+### **css**
 
 
 
@@ -46,14 +53,21 @@ To learn more about **superplate**, please check out the [Documentation](https:/
 [Go To Documentation]()
 
 
-### **example-resource**
+### **custom-auth-provider**
 
 
 
 [Go To Documentation]()
 
 
-### **custom-layout**
+### **no**
+
+
+
+[Go To Documentation]()
+
+
+### **no**
 
 
 
