@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AccessControlModule } from 'nest-access-control';
 
 import { AppController } from './controllers/app.controller';
 import { AppService } from './services/app.service';
@@ -11,6 +12,7 @@ import { JobController } from './controllers/job.controller';
 import { CompanyService } from './services/company.service';
 import { JobService } from './services/job.service';
 
+import { roles } from './app.roles';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -34,6 +36,7 @@ import { JobService } from './services/job.service';
       inject: [ConfigService],
     }),
     TypeOrmModule.forFeature([CompanyRepository, JobRepository]),
+    AccessControlModule.forRoles(roles),
   ],
   controllers: [AppController, CompanyController, JobController],
   providers: [AppService, CompanyService, JobService],
