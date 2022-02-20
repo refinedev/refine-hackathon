@@ -8,6 +8,7 @@ import {
   ParsedBody,
   ParsedRequest,
 } from '@nestjsx/crud';
+import { plainToClass } from 'class-transformer';
 import { ACGuard, UseRoles } from 'nest-access-control';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 
@@ -73,7 +74,6 @@ export class CompanyController implements CrudController<CompanyEntity> {
     @ParsedRequest() req: CrudRequest,
     @ParsedBody() dto: CompanyCreateDto,
   ) {
-    console.log('create-dto', dto);
     return this.base.createOneBase(req, <CompanyEntity>dto);
   }
 
@@ -82,7 +82,10 @@ export class CompanyController implements CrudController<CompanyEntity> {
     resource: 'companies',
     action: 'update',
   })
-  updateOne(req: CrudRequest, dto: CompanyUpdateDto) {
+  updateOne(
+    @ParsedRequest() req: CrudRequest,
+    @ParsedBody() dto: CompanyUpdateDto,
+  ) {
     return this.base.updateOneBase(req, <CompanyEntity>dto);
   }
 

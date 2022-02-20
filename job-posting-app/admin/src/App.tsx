@@ -50,8 +50,6 @@ function App() {
                                     break;
                             }
                         });
-
-
                     }
                     return Promise.resolve({ can });
                 },

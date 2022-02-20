@@ -87,7 +87,10 @@ export class JobController implements CrudController<JobEntity> {
     resource: 'jobs',
     action: 'update',
   })
-  updateOne(req: CrudRequest, dto: JobUpdateDto) {
+  updateOne(
+    @ParsedRequest() req: CrudRequest,
+    @ParsedBody() dto: JobUpdateDto,
+  ) {
     return this.base.updateOneBase(req, <JobEntity>dto);
   }
 
